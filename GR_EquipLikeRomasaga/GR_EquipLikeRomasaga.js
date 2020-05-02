@@ -36,17 +36,12 @@ var parameters = PluginManager.parameters('GR_EquipLikeRomasaga');
 var accessoryId = Number(parameters['AccessoryID']);
 
 //　メニュー画面からの装備シーン呼び出しを、装備シーン改へ変更
+var _Scene_Menu_onPersonalOk = Scene_Menu.prototype.onPersonalOk;
 Scene_Menu.prototype.onPersonalOk = function() {
-    switch (this._commandWindow.currentSymbol()) {
-    case 'skill':
-        SceneManager.push(Scene_Skill);
-        break;
-    case 'equip':
+    if(this._commandWindow.currentSymbol() == 'equip') {
         SceneManager.push(Scene_EquipCustom);
-        break;
-    case 'status':
-        SceneManager.push(Scene_Status);
-        break;
+    } else {
+        _Scene_Menu_onPersonalOk.call(this);
     }
 };
 
