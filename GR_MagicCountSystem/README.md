@@ -109,7 +109,7 @@ GR_MagicRecover All
 ## 【使い方】  
 ***以下、オーソドックスなWizardry系設定を再現する例を見てみましょう。***
 
- - プラグインパラメータ設定例
+ - プラグインパラメータ設定例  
  ![プラグインパラメータ設定例](img/PluginSetting.png)
 
  - 「skill type ID」「skill types」  
