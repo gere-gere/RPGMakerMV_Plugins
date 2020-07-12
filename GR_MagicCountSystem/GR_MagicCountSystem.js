@@ -45,7 +45,7 @@
  *
  * @param minimum count
  * @type number
- * @min 0
+ * @min 1
  * @max 99
  * @desc 該当呪文レベル修得時の最小使用回数（未修得の場合は0）
  * @default 3
@@ -83,7 +83,7 @@
  * Wizardryなどでおなじみの、呪文をMPでなく使用回数で管理するシステムです。
  * 
  * なお、RPGツクール本来のMPやTPの機能は残ったままなので、本プラグインの使用回数と
- * 組み合わせて利用することも可能です。
+ * 組み合わせて設定することも可能です。
  *
  * 設定項目がやや多いので、以下に例を挙げつつ順に解説します。
  * 
@@ -227,7 +227,7 @@
  * 職業側の係数1.0が有効となるため、スキル側の係数は無視されます。
  * 
  *【プラグインコマンド】
- * GR_MagicRecover [アクターID]
+ * GR_MagicRecover アクターID
  *  アクターIDで指定したアクターの魔法使用回数を全回復します。
  *  アクターIDの箇所を「All」とした場合はパーティメンバー全員を全回復します。
  *  宿屋などの回復イベントにご使用ください。
@@ -289,7 +289,7 @@
     let getMagicType = function(skill) {
         let type = skill.stypeId - SKILL_TYPE_ID;
         if(type < 0) type = -1;
-        if(type > (SKILL_TYPE_ID + SKILL_TYPES - 1)) type = -1;
+        if(type > (SKILL_TYPES - 1)) type = -1;
         return type;
     };
 
