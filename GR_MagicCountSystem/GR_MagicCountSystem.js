@@ -3,7 +3,7 @@
 // 作成者     :げれげれ
 // 作成日     : 2020/06/25
 // 最終更新日 : 2020/06/25
-// バージョン : v1.0.0
+// バージョン : v1.1.1
 // ----------------------------------------------------------------------------
 // Released under the MIT License.
 // https://opensource.org/licenses/mit-license.php
@@ -772,8 +772,8 @@
             this._skillWindow.setSkillLevel(this._countWindow.index() + 1);
             this._skillWindow.refresh();
             this._skillWindow.show();
+            this._skillWindow.deselect();
             this._countWindow.refresh();
-            this._skillWindow.refresh();
             this._countWindow.show();
             this._countWindow.open();
             this._countWindow.select(0);
