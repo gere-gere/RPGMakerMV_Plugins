@@ -3,7 +3,7 @@
 // 作成者     :げれげれ 
 // 作成日     : 2021/03/05
 // 最終更新日 : 2021/03/05
-// バージョン : v1.0.0
+// バージョン : v1.0.1
 // ----------------------------------------------------------------------------
 // Released under the MIT License.
 // https://opensource.org/licenses/mit-license.php
@@ -12,11 +12,23 @@
 /*:
  * @plugindesc 
  * @author げれげれ
- *
+ * 
+ * @param window_y
+ * @type number
+ * @desc アイテム残数ウインドウを表示するｙ座標です
+ * @default 80
+ * 
+ * @param position
+ * @type boolean
+ * @desc 単位の表示位置を前後から選べます
+ * @on 前
+ * @off 後
+ * @default true
+ * 
  * @param unit
  * @type string
  * @desc 単位
- * @default 個
+ * @default 残：
  *
  * @help
  * メニュー画面からアクターに対しアイテムを使用する際に
@@ -37,6 +49,8 @@
 
 /* プラグインパラメータ */
 const PARAMETERS = PluginManager.parameters('GR_ItemQuantityDisplay');
+const WINDOW_Y = parseInt(PARAMETERS['window_y']);
+const POSITION = PARAMETERS['position'] === 'true' ? true : false ;
 const UNIT = PARAMETERS['unit'];
 
 //シーン関連
@@ -53,8 +67,8 @@ Scene_Item.prototype.createQuantityWindow = function() {
 };
 
 Scene_Item.prototype.determineItem = function() {
-    let action = new Game_Action(this.user());
-    let item = this.item();
+    const action = new Game_Action(this.user());
+    const item = this.item();
     action.setItemObject(item);
     if (action.isForFriend()) {
         this.showSubWindow(this._actorWindow);
@@ -99,7 +113,7 @@ Window_Quantity.prototype.initialize = function(parentScene) {
     this._parentScene = parentScene;
     const width = this.windowWidth();
     const height = this.windowHeight();
-    Window_Base.prototype.initialize.call(this, 0, 0, width, height);
+    Window_Base.prototype.initialize.call(this, 0, WINDOW_Y, width, height);
 };
 
 Window_Quantity.prototype.windowWidth = function() {
@@ -118,11 +132,20 @@ Window_Quantity.prototype.refresh = function() {
     const value = this.itemQuantity(item);
     this.contents.clear();
     this.drawItemName(item, x, 0, width);
-    this.drawCurrencyValue(value, UNIT, x, y, width);
+    if(POSITION) {
+        this.drawCurrencyValueFront(value, UNIT, x, y, width);
+    } else {
+        this.drawCurrencyValue(value, UNIT, x, y, width);
+    }
 };
 
 Window_Quantity.prototype.itemQuantity = function(item) {
     return $gameParty.numItems(item);
+};
+
+Window_Quantity.prototype.drawCurrencyValueFront = function(value, unit, x, y, width) {
+    this.resetTextColor();
+    this.drawText(`${unit} ${value}`, x, y, width, 'right');
 };
 
 })();
