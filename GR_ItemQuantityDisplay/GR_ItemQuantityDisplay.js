@@ -3,7 +3,7 @@
 // 作成者     :げれげれ 
 // 作成日     : 2021/03/05
 // 最終更新日 : 2021/03/05
-// バージョン : v1.0.1
+// バージョン : v1.0.2
 // ----------------------------------------------------------------------------
 // Released under the MIT License.
 // https://opensource.org/licenses/mit-license.php
@@ -85,7 +85,6 @@ Scene_ItemBase.prototype.showQuantityWindow = function(window, actorWindowWidth)
     window.x = this.isCursorLeft() ? 0 : actorWindowWidth;
     window.refresh();
     window.show();
-    window.activate();
 };
 
 const Scene_ItemBase_onActorOk = Scene_ItemBase.prototype.onActorOk;
