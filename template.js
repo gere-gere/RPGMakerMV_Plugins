@@ -40,20 +40,19 @@
 
 //==============================================================================
 
-
-(function() {
 'use strict';
 
+{
 /* プラグインパラメータ */
 const PARAMETERS = PluginManager.parameters('');
-const **** = Number(PARAMETERS['****']);
+const **** = parseInt(PARAMETERS['****']);
 
 /* プラグインコマンド　*/
-const _game_interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
+const _Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
 Game_Interpreter.prototype.pluginCommand = function(command, args) {
-    _game_interpreter_pluginCommand.call(this, command, args);
-    const command_T = command.toUpperCase();
-    switch (command_T) {
+    _Game_Interpreter_pluginCommand.call(this, command, args);
+    const commandUppercase = command.toUpperCase();
+    switch (commandUppercase) {
         case '****':
 
             break;
@@ -64,4 +63,4 @@ Game_Interpreter.prototype.pluginCommand = function(command, args) {
 
 
 
-})();
+}
