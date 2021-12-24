@@ -145,4 +145,25 @@
 
     return this._actor.canEquip(item);
   };
+
+  // ショップのステータス差分をスロット基準でなく同部位装備との比較に変更
+  Window_ShopStatus.prototype.currentEquippedItem = function (actor, etypeId) {
+    const list = [];
+    const equips = actor.equips();
+    for (let i = 0; i < equips.length; i++) {
+      if (equips[i] && equips[i].etypeId === etypeId) {
+        list.push(equips[i]);
+      }
+    }
+    const paramId = this.paramId();
+    let worstParam = Number.MAX_VALUE;
+    let worstItem = null;
+    for (let j = 0; j < list.length; j++) {
+      if (list[j] && list[j].params[paramId] < worstParam) {
+        worstParam = list[j].params[paramId];
+        worstItem = list[j];
+      }
+    }
+    return worstItem;
+  };
 })();
