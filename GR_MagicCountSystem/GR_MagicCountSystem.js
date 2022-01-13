@@ -442,7 +442,7 @@
           (this.param(CALCULATION_BASE_PARAMID) *
             ((CALCULATION_COEFFICIENT - i - 1) * 0.01 + 0.24) +
             CALCULATION_BIAS -
-            (i - 1) * 1.6) *
+            (i - 1) * 1.9) *
             aptitude
         );
         if (tempNum < MINIMUM_COUNT) tempNum = MINIMUM_COUNT;
@@ -590,7 +590,7 @@
   Scene_Skill.prototype.onActorOk = function () {
     if (this.canUse()) {
       this.useItem();
-      if (this._mode == 1) {
+      if (this._mode == 1 && !this.actor().canPaySkillCost(this.item())) {
         this.hideSubWindow(this._actorWindow);
         this._countWindow.refresh();
         this._countWindow.show();
@@ -601,6 +601,11 @@
     } else {
       SoundManager.playBuzzer();
     }
+  };
+
+  // modeに応じて使用回数を考慮に入れるようオーバーライド
+  Scene_Skill.prototype.canUse = function () {
+    return this.user().canUse(this.item()) && this.isItemEffectsValid();
   };
 
   //Windowクラス================================================================
