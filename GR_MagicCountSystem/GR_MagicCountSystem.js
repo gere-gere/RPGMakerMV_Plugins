@@ -578,6 +578,7 @@
   Scene_Skill.prototype.onItemCancel = function () {
     if (this._mode == 1) {
       this._itemWindow.deselect();
+      this._countWindow.refresh();
       this._countWindow.show();
       this._countWindow.open();
       this._countWindow.activate();
@@ -601,11 +602,6 @@
     } else {
       SoundManager.playBuzzer();
     }
-  };
-
-  // modeに応じて使用回数を考慮に入れるようオーバーライド
-  Scene_Skill.prototype.canUse = function () {
-    return this.user().canUse(this.item()) && this.isItemEffectsValid();
   };
 
   //Windowクラス================================================================
