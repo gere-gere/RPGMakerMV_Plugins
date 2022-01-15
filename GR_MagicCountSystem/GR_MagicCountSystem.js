@@ -2,8 +2,8 @@
 // GR_MagicCountSystem.js
 // 作成者     :げれげれ
 // 作成日     : 2020/06/25
-// 最終更新日 : 2020/06/25
-// バージョン : v1.0.0
+// 最終更新日 : 2022/01/15
+// バージョン : v1.1.0
 // ----------------------------------------------------------------------------
 // Released under the MIT License.
 // https://opensource.org/licenses/mit-license.php
@@ -236,6 +236,12 @@
  *     GR_MagicRecover 1    #アクターID：1のアクターの魔法使用回数を全回復します。
  *     GR_MagicRecover All  #パーティに含まれているアクター全員の魔法使用回数を全回復します。
  *
+ * (※Ver1.1.0で機能追加)
+ * アクターIDに続けて回復量を指定することで指定分だけ回復させることを可能にしました。
+ *
+ *   記述例）
+ *     GR_MagicRecover 1 2    #アクターID：1のアクターの全レベルの魔法使用回数を2だけ回復します。
+ *     GR_MagicRecover All 1  #パーティに含まれているアクター全員の全レベルの魔法使用回数を1だけ回復します。
  *
  */
 
@@ -264,16 +270,27 @@
 
     let commandUpperCase = command.toUpperCase();
     if (commandUpperCase === 'GR_MAGICRECOVER') {
-      let argsUpperCase = args[0].toUpperCase();
-      switch (argsUpperCase) {
+      const args1 = args[0].toUpperCase();
+      const args2 = parseInt(args[1]);
+      switch (args1) {
         case 'ALL':
-          $gameParty._actors.forEach((actorId) => {
-            $gameActors.actor(actorId).magicFullRecover();
-          });
+          if (args2) {
+            $gameParty._actors.forEach((actorId) => {
+              $gameActors.actor(actorId).magicRecover(args2);
+            });
+          } else {
+            $gameParty._actors.forEach((actorId) => {
+              $gameActors.actor(actorId).magicFullRecover();
+            });
+          }
           break;
         default:
-          let actorId = Number(args[0]);
-          $gameActors.actor(actorId).magicFullRecover();
+          const actorId = parseInt(args1);
+          if (args2) {
+            $gameActors.actor(actorId).magicRecover(args2);
+          } else {
+            $gameActors.actor(actorId).magicFullRecover();
+          }
           break;
       }
     }
@@ -332,10 +349,20 @@
     }
   };
 
-  //魔力全回復メソッド
+  // 魔力全回復メソッド
   Game_Battler.prototype.magicFullRecover = function () {
     this._magicCount.forEach((arr, i) => {
       this._magicCount[i] = arr.map((elem, j) => this._maxMagicCount[i][j]);
+    });
+  };
+
+  // 魔力を指定分だけ回復
+  Game_Battler.prototype.magicRecover = function (value) {
+    this._magicCount.forEach((arr, i) => {
+      for (let j = 0; j < arr.length; j++) {
+        this._magicCount[i][j] += value;
+        this._magicCount[i][j] = this._magicCount[i][j].clamp(0, this._maxMagicCount[i][j]);
+      }
     });
   };
 
